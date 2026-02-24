@@ -10,7 +10,6 @@ word = [
     "go hard",
     "go off",
     "go savage"
-    "seama":
 ]
 
 template = ["You gotta {phrase} this {subject} vro."]
