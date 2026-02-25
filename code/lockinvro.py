@@ -7,7 +7,7 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-word = [
+word1 = [
     "grind",
     "lock in for",
     "channelise those vibes",
@@ -63,14 +63,36 @@ template = [
     "You better {phrase} this {subject} vro.",
     "You must {phrase} this {subject} vro.",
     "You should {phrase} this {subject} vro.",
-    "You better {phrase} this {subject} vro."
-
+    "You better {phrase} this {subject} vro.",
+    "Only way to pass this {subject} is to {phrase} vro.",
+    "Only way to pass this {subject} is to {phrase} for it vro.",
 ]
 
 def lockinvro(subject):
-    phrase = random.choice(word)
+    phrase = random.choice(word1)
     tmp = random.choice(template)
     return tmp.format(phrase=phrase, subject=subject)
+
+def wrap_text(text, draw, max_width):
+    words = text.split()
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = current_line + " " + word if current_line else word
+        bbox = draw.textbox((0,0), test_line, font=font)
+        width = bbox[2] - bbox[0]
+
+        if width <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+
+    if current_line:
+        lines.append(current_line)
+
+    return lines
 
 HTML = """
 <!doctype html>
@@ -98,14 +120,20 @@ def home():
         except:
             font = ImageFont.load_default()
 
-        bbox = draw.textbbox((0, 0), text, font=font)
-        text_width = bbox[2] - bbox[0]
-        text_height = bbox[3] - bbox[1]
+        max_width = img.width * 0.8
+        lines = wrap_text(text, draw, font, max_width)
 
-        x = (img.width - text_width) / 2
-        y = (img.height - text_height) / 2
+        line_height = draw.textbbox((0, 0), "Ay", font=font)[3]
+        total_height = line_height * len(lines)
 
-        draw.text((x, y), text, font=font, fill="white")
+        y = (img.height - total_height) / 2
+
+        for line in lines:
+            bbox = draw.textbbox((0, 0), line, font=font)
+            text_width = bbox[2] - bbox[0]
+            x = (img.width - text_width) / 2
+            draw.text((x, y), line, font=font, fill="white")
+            y += line_height
 
         buffer = BytesIO()
         img.save(buffer, format="PNG")
