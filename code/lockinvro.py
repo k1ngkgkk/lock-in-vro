@@ -15,7 +15,7 @@ word = [
     "go savage"
 ]
 
-imgUrl = "https://source.unsplash.com/1080x1080/?aesthetic,study,light"
+imgUrl = "https://picsum.photos/1080"
 response = requests.get(imgUrl)
 img = Image.open(BytesIO(response.content)).convert("RGB")
 
@@ -33,12 +33,13 @@ def lockinvro(subject):
 
 if __name__ == "__main__":
     test = str(input("What u studying for vro? : "))
-    lockinvro(test)
+    text = lockinvro(test)
 
 draw = ImageDraw.Draw(img)
 font = ImageFont.truetype("arial.ttf", 40)
-text = lockinvro(test)
-text_width, text_height = draw.textsize(text, font=font)
+bbox = draw.textbbox((0, 0), text, font=font)
+text_width = bbox[2] - bbox[0]
+text_height = bbox[3] - bbox[1]
 x = (img.width - text_width) / 2
 y = (img.height - text_height) / 2
 draw.text((x, y), text, font=font, fill="white")
