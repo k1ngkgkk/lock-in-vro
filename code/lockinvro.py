@@ -1,3 +1,4 @@
+#Made by @k1ngkgkk
 import random
 import requests
 from flask import Flask, request, send_file, render_template_string
@@ -16,6 +17,40 @@ word = [
     "go hard",
     "go off",
     "go savage"
+    "go super saiyan",
+    "go turbo",
+    "go wild",
+    "hustle",
+    "put in work",
+    "put in that work",
+    "put in work for",
+    "put in that work for",
+    "put in work on",
+    "put in that work on",
+    "put in work with",
+    "put in that work with",
+    "put in work to",
+    "put in that work to",
+    "grind for",
+    "grind on",
+    "grind with",
+    "grind to",
+    "grind hard for",
+    "grind hard on",
+    "grind hard with",
+    "grind hard to",
+    "lock tf in"
+    "lock the heck in",
+    "lock the frick in",
+    "lock the f*ck in",
+    "go HARDCORE for",
+    "go HARDCORE on",
+    "go HARDCORE with",
+    "go HARDCORE to",
+    "go NUTS for",
+    "go NUTS on",
+    "go NUTS with",
+    "go NUTS to"
 ]
 
 template = [
@@ -23,7 +58,13 @@ template = [
     "Vro, you gotta {phrase} this {subject}.",
     "You gotta {phrase} for this {subject} vro.",
     "Vro, you gotta {phrase} for this {subject}.",
-    "I trust you can {phrase} this {subject} vro."
+    "I trust you can {phrase} this {subject} vro.",
+    "I trust you can {phrase} for this {subject} vro.",
+    "You better {phrase} this {subject} vro.",
+    "You must {phrase} this {subject} vro.",
+    "You should {phrase} this {subject} vro.",
+    "You better {phrase} this {subject} vro."
+
 ]
 
 def lockinvro(subject):
@@ -52,7 +93,10 @@ def home():
         img = Image.open(BytesIO(response.content)).convert("RGB")
 
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("arial.ttf", 40)
+        try:
+            font = ImageFont.truetype("arial.ttf", 40)
+        except:
+            font = ImageFont.load_default()
 
         bbox = draw.textbbox((0, 0), text, font=font)
         text_width = bbox[2] - bbox[0]
