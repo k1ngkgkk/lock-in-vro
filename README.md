@@ -9,6 +9,6 @@ a randomised study prompt generator
 
 ## how it works
 A simple .random() choice chooses a phrase from a list, and another chooses a template.
-User input is used as another factor in the template
-an image is chosen from the open source library
-
+User input is used as another factor in the template.
+An image is chosen from the open source library 'picsum'
+The image is shown with the text overlayed and wrapped.
